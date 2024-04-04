@@ -33,7 +33,7 @@ class IlFaroAlConfineDellUniverso(MDApp):
             size_hint=(1, 1)
         ))
 
-        # Definisci attributi di stile per i BoxLayout
+        # Definisci attributi di stile per i BoxLayout.
         bl_style = {
             "orientation": 'vertical',
             "size_hint": (0.8, 0.3),
@@ -52,7 +52,7 @@ class IlFaroAlConfineDellUniverso(MDApp):
         )      
         self.window.add_widget(lbl_layout)
 
-        # Definisci attributi di stile per i bottoni
+        # Definisci attributi di stile per i bottoni.
         btn_style = {
             "theme_text_color": "Custom",
             "text_color": '#F8FBFB',
@@ -62,7 +62,7 @@ class IlFaroAlConfineDellUniverso(MDApp):
             "font_name":"font/ADKLRR-IM_FELL_Great_Primer_SC.ttf"
         }
         
-        # Definisci attributi di stile per le label
+        # Definisci attributi di stile per le label.
         lbl_style = {
             "theme_text_color": "Custom",
             "italic":True,
@@ -70,35 +70,36 @@ class IlFaroAlConfineDellUniverso(MDApp):
             "text_color":'#F8FBFB'
         }
 
-        self.btn_s = MDFlatButton(
+        self.btn_SearchOnBeach = MDFlatButton(
             text='SETACCIARE LA SPIAGGIA',
             on_press=self.search,
             **btn_style
         )
 
-        # Definisco l'ora corrente
+        # Definisco l'ora corrente.
         now = datetime.now().time()
         
+        # La fascia oraria in cui si può setacciare la spiaggia la metterei in testa al codice, se non in un setup apposito.
         if now <= time(20, 0) and now >= time(5,0):
-            btn_layout.add_widget(self.btn_s)
+            btn_layout.add_widget(self.btn_SearchOnBeach)
 
-        self.btn_t = MDFlatButton(
+        self.btn_TurnLight = MDFlatButton(
             text='ACCENDERE LA LUCE',
             on_press=self.toggle_light,
             **btn_style
         )
         if now <= time(5, 0) or now >= time(12,0):
-            btn_layout.add_widget(self.btn_t)
+            btn_layout.add_widget(self.btn_TurnLight)
 
-        # Aggiungi un attributo di stato al bottone
-        self.btn_t.light_on = False
+        # Aggiungi un attributo di stato al bottone.
+        self.btn_TurnLight.light_on = False
 
-        self.btn_m = MDFlatButton(
+        self.btn_Maintenance = MDFlatButton(
             text='MANUTENZIONE',
             on_press=self.maintenance,
             **btn_style
         )
-        btn_layout.add_widget(self.btn_m)
+        btn_layout.add_widget(self.btn_Maintenance)
 
         self.btn_w = MDFlatButton(
             text='OSSERVAZIONE',
@@ -107,12 +108,12 @@ class IlFaroAlConfineDellUniverso(MDApp):
         )
         btn_layout.add_widget(self.btn_w)
 
-        self.btn_e = MDFlatButton(
+        self.btn_Event = MDFlatButton(
             text='EVENTO',
             on_press=self.event,
             **btn_style
         )
-        btn_layout.add_widget(self.btn_e)
+        btn_layout.add_widget(self.btn_Event)
 
         self.lblMain = MDLabel(
             text="...",
@@ -129,7 +130,7 @@ class IlFaroAlConfineDellUniverso(MDApp):
         return self.window
 
     def toggle_light(self, instance):
-        if not self.btn_t.light_on:
+        if not self.btn_TurnLight.light_on:
             self.turn_light(instance)
         else:
             self.off_light(instance)
@@ -152,17 +153,17 @@ class IlFaroAlConfineDellUniverso(MDApp):
             else:
                 self.lblMain.text = f"Hai acceso la luce dopo molti tentativi."
 
-            self.btn_t.text = 'SPEGNERE LA LUCE'
-            self.btn_t.text_color = '#FFFF00'
-            self.btn_t.light_on = True
+            self.btn_TurnLight.text = 'SPEGNERE LA LUCE'
+            self.btn_TurnLight.text_color = '#FFFF00'
+            self.btn_TurnLight.light_on = True
         else:
             self.lblMain.text = "Non riesci ad accendere la luce."
             
     def off_light(self, instance):
         self.lblMain.text = "Hai spento la luce del faro."
-        self.btn_t.text = 'ACCENDERE LA LUCE'
-        self.btn_t.text_color = '#F8FBFB'
-        self.btn_t.light_on = False
+        self.btn_TurnLight.text = 'ACCENDERE LA LUCE'
+        self.btn_TurnLight.text_color = '#F8FBFB'
+        self.btn_TurnLight.light_on = False
 
     def search(self, instance):
         self.foundItem = floor(datetime.now().time().hour / 2)      
@@ -170,7 +171,7 @@ class IlFaroAlConfineDellUniverso(MDApp):
 
         card = self.draw_card()
 
-        # Il primo elemento è la categoria generale, i successivi sono i dettagli
+        # Il primo elemento è la categoria generale, i successivi sono i dettagli.
         items = {
             '2': ['Corpi','scheletri', 'arti', 'denti', 'pelliccia', 'squame', 'corna', 'interiora'],
             '3': ['Animali','uccelli', 'pesci', 'rettili', 'razze galattiche', 'balene spaziali'],
@@ -186,7 +187,7 @@ class IlFaroAlConfineDellUniverso(MDApp):
             'K': ['Documento','diari', 'libri', 'dischi dati', 'lettere', 'chiavette USB', 'mappe'],
             'A': ['Ricchezze','gioielli', 'monete', 'carte di credito', 'pietre preziose', 'banconote']
         }
-        # Usa roll_dice per ottenere un risultato casuale
+        # Usa roll_dice per ottenere un risultato casuale.
         item = items.get(card.value, [])[0]
         dice_result = self.roll_dice(len(items.get(card.value, []))-1)
         item_detail = items.get(card.value, [])[dice_result]
